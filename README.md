@@ -38,18 +38,19 @@ POJO의 조건
 
   ## 스프링 프로젝트의 구조
 ![img](./doc_img/spring_folder_desc.png)
-src/main/java : 자바코드(컨트롤러, 모델)
-src/main/resources : 자바 코드에서 사용할 리소스(mapper, sql)
-src/test/java : 테스트 코
-src/test/resources : 테스트 코드에서 사용할 리소스
-Maven Dependencies : 라이브러리 관리도구(maven에서 다운받은 jar파일)
-src : web디렉토리
-src/main/webapp/resources : js, css, image 등등을 관리
-src/main/webapp/WEB-INF/classes : 컴파일된 클래스
-src/main/webapp/WEB-INF/spring : 스프링 환경설정파일(root-context.xml, servlet-context.xml)
-src/main/webapp/WEB-INF/views : html, jsp파일
-src/main/webapp/ : 외부접근 가능
-src/main/webapp/WEB-INF : 외부접근 불가, 컨트롤러를 경유해서 접근 가능
+
+src/main/java : 자바코드(컨트롤러, 모델)  
+src/main/resources : 자바 코드에서 사용할 리소스(mapper, sql)  
+src/test/java : 테스트 코  
+src/test/resources : 테스트 코드에서 사용할 리소스  
+Maven Dependencies : 라이브러리 관리도구(maven에서 다운받은 jar파일)  
+src : web디렉토리  
+src/main/webapp/resources : js, css, image 등등을 관리  
+src/main/webapp/WEB-INF/classes : 컴파일된 클래스  
+src/main/webapp/WEB-INF/spring : 스프링 환경설정파일(root-context.xml, servlet-context.xml)  
+src/main/webapp/WEB-INF/views : html, jsp파일  
+src/main/webapp/ : 외부접근 가능  
+src/main/webapp/WEB-INF : 외부접근 불가, 컨트롤러를 경유해서 접근 가능  
 
 #### WEB-INF폴더
 외부에서 직접 접속이 차단되어있다. 그 이유는 컴파일된 클래스와 스프링 환경설정파일(DB연결정보)이 존재하기 때문
