@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
@@ -28,11 +29,67 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<!-- viewResolver(뷰 해석기) -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- 뷰(jsp)의 접두어, 접미어 설정: 파일명만 작성할 수 있게 세팅 -->
-		<!-- ex) return "board/list" 인 경우 /WEB-INF/views/ + board/list + .jsp -->
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
+	<!-- viewResolver 부분 수정 (ContentNegotiatingViewResolver 사용) -->
+	<!-- https://www.holaxprogramming.com/2012/01/29/spring-mvc-content-negotiating-view-resolver/ -->
+	<!-- https://ismydream.tistory.com/139 -->
+	<!-- https://mindols.tistory.com/121 -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<!-- ViewResolver 우선순위 설정 -->
+		<property name="order" value="1" />
+		<property name="contentNegotiationManager">
+			<bean class="org.springframework.web.accept.ContentNegotiationManager">
+				
+				<constructor-arg>
+					<!-- 확장자와 contentType 을 연결해 준다. -->
+					<bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+						<constructor-arg>
+							 <!-- 맵핑될 확장자 정의 -->
+							<map>
+								<entry key="atom" value="application/atom+xml"/>
+								<entry key="xml" value="application/xml"/>
+								<entry key="html" value="text/html"/>
+								<entry key="json" value="application/json"/>
+								<entry key="jsonp" value="javascript/jsonp"/>
+							</map>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<!-- 뷰(jsp)의 접두어, 접미어 설정: 파일명만 작성할 수 있게 세팅 -->
+					<!-- ex) return "board/list" 인 경우 /WEB-INF/views/ + board/list + .jsp -->
+					<property name="prefix" value="/WEB-INF/jsp/"/>
+					<property name="suffix" value=".jsp"/>
+					<property name="order" value="2" />
+				</bean>
+			</list>
+		</property>
+		<!-- 위의 viewResolvers 에 의해 view를 얻지 못했을 경우에 사용되는 view -->
+		<property name="defaultViews">
+			<list>
+				<!-- JSON View -->
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="prefixJson" value="false" />
+				</bean>
+				<!-- XML View -->
+				<!-- <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<constructor-arg>
+						<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+							<property name="packagesToScan">
+								<list>
+									<value>com.tistory.redtrain.SampleDTO</value>
+								</list>
+							</property>
+						</bean>
+					</constructor-arg>
+				</bean> -->
+			</list>
+		</property>
+		<!-- https://geekshin.tistory.com/entry/%EC%8A%A4%ED%94%84%EB%A7%81-ContentNegotiatingViewResolver -->
+		<!-- <property name="defaultContentType" value="application/json" /> -->
 	</bean>
-	
 </beans>
