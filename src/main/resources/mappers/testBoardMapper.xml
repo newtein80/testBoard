@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="testboard">
+
+	<!-- 게시물 목록 데이터 불러오기 -->
+	<select id="lists" resultType="com.test.board.vo.TestBoardVO">
+		select
+		    IDX,
+		    TITLE,
+		    CONTENT,
+		    USERNAME,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS') AS REGDATE
+		from TESTBOARD
+		order by REGDATE DESC, IDX DESC
+	</select>
+	
+	<insert id="insertItem">
+		insert into TESTBOARD (IDX, TITLE, CONTENT, USERNAME, REGDATE) 
+		values
+		(
+			(select nvl(max(IDX)+1,1) from TESTBOARD)
+			, #{title}
+			, #{content}
+			, #{username}
+			, SYSDATE
+		)
+	</insert>
+	
+	<select id="selectItem" resultType="com.test.board.vo.TestBoardVO">
+		select
+		    IDX,
+		    TITLE,
+		    CONTENT,
+		    USERNAME,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS') AS REGDATE
+		from TESTBOARD
+		where IDX = #{IDX}
+	</select>
+	
+	<update id="updateItem">
+		update TESTBOARD set
+			TITLE = #{title}
+			, CONTENT = #{content}
+			, USERNAME = #{username}
+		where IDX = #{idx}
+	</update>
+	
+	<delete id="deleteItem">
+		delete from TESTBOARD
+		where IDX = #{idx}
+	</delete>
+</mapper>
