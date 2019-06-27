@@ -12,7 +12,7 @@
     	<!-- https://okky.kr/article/294679 -->
         <property name="dataSource" ref="dataSource" />
         <!-- mybatis 설정파일의 경로 -->
-        <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+        <property name="configLocation" value="classpath:base/sqlmap/mybatis-config.xml"></property>
         <!-- mybatis mapper 파일의 경로 -->
         <!-- classpath는 src/main/resources이고 아래 **은 모든 디렉토리를 의미하고 *은 모든 단어를 의미함 -->
         <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
